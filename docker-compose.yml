@@ -1,0 +1,71 @@
+services:
+  backend:
+    build: ./backend
+    container_name: automl_backend
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+    volumes:
+      - ./backend:/app          # ← source code hot-reload (no rebuild needed)
+      - ./data:/app/data
+      - ./models:/app/models
+    depends_on:
+      - mlflow
+      - chromadb
+    networks:
+      - automl_net
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: automl_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_WS_URL=ws://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - automl_net
+    restart: unless-stopped
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.2
+    container_name: automl_mlflow
+    ports:
+      - "5000:5000"
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    volumes:
+      - mlflow_data:/mlflow
+    networks:
+      - automl_net
+    restart: unless-stopped
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: automl_chromadb
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    networks:
+      - automl_net
+    restart: unless-stopped
+
+networks:
+  automl_net:
+    driver: bridge
+
+volumes:
+  mlflow_data:
+  chroma_data:

@@ -1,0 +1,11 @@
+customer_id,tenure_months,monthly_spend,support_tickets,contract_type,region,churn_label
+C001,18,72.4,1,annual,west,0
+C002,3,41.2,5,monthly,east,1
+C003,44,96.8,0,annual,south,0
+C004,7,53.9,4,monthly,west,1
+C005,28,88.1,1,annual,north,0
+C006,2,35.5,6,monthly,east,1
+C007,31,90.0,2,annual,south,0
+C008,11,61.7,3,monthly,north,1
+C009,52,105.3,0,annual,west,0
+C010,5,49.8,4,monthly,south,1
