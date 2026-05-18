@@ -5,3 +5,4 @@ echo .env >> .gitignore
 echo models/ >> .gitignore
 echo data/ >> .gitignore
 echo node_modules/ >> .gitignore
+echo frontend/node_modules/ >> .gitignore
