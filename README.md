@@ -61,61 +61,7 @@ The important privacy design is that AI agents receive metadata summaries instea
 - Docker Compose based deployment
 
 ## System Architecture
-
-```text
-+---------------------------+
-|        User Dataset       |
-|  CSV / Excel / JSON /     |
-|        Parquet File       |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|     Frontend Dashboard    |
-|  Next.js + React UI       |
-|  Upload and Results View  |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|       FastAPI Backend     |
-|  Upload API, Job API,     |
-|  WebSocket Updates        |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|       Data Profiler       |
-|  pandas + NumPy           |
-|  Metadata Extraction      |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|       AI Agent Layer      |
-|  CrewAI + Gemini          |
-|  Metadata-Only Reasoning  |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|        ML Engine          |
-|  Preprocess, Train, Tune, |
-|  Evaluate, Explain        |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|   Tracking and Memory     |
-|  MLflow + ChromaDB        |
-+-------------+-------------+
-              |
-              v
-+---------------------------+
-|        Final Output       |
-|  Metrics, Report, Model   |
-+---------------------------+
-```
+given as png 
 
 ## Workflow
 
@@ -510,19 +456,6 @@ The pipeline treats tracking and workflow memory as best-effort steps. A model c
 | Technical implementation | Combines FastAPI, Next.js, CrewAI, Gemini, scikit-learn, XGBoost, Optuna, SHAP, MLflow, and ChromaDB |
 | Industrial relevance | Supports automated, explainable, repeatable ML workflows with downloadable models and reports |
 | Scalability and robustness | Modular services, Docker deployment, async backend execution, WebSocket monitoring, experiment tracking, and workflow memory |
-
-## Deliverables
-
-Generated submission files are available in:
-
-```text
-deliverables/
-```
-
-Current generated files include:
-
-- `ABB_AutoML_Copilot_Submission.pdf`
-- `ABB_AutoML_Copilot_Submission.docx`
 
 ## Notes
 
