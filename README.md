@@ -439,26 +439,5 @@ Supports automated, explainable, reproducible machine learning workflows with do
 Scalability and Robustness
 Features modular services, Docker deployment, asynchronous execution, WebSocket monitoring, workflow memory, and experiment tracking.
 
-Deliverables
 
-Generated submission files are stored in:
 
-```text
-deliverables/
-```
-
-Example outputs:
-
-* ABB_AutoML_Copilot_Submission.pdf
-* ABB_AutoML_Copilot_Submission.docx
-
-Additional Notes
-
-* Uploaded datasets are stored in `data/`
-* Exported models are stored in `models/`
-* Backend processing runs asynchronously
-* AI agents operate on metadata summaries for privacy
-* ML pipelines process actual datasets securely
-* Best performance is achieved with balanced datasets and clearly defined target columns
-
-Source File: 
