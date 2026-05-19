@@ -31,6 +31,11 @@ class HyperparameterOptimizer:
             from sklearn.preprocessing import LabelEncoder
             y = LabelEncoder().fit_transform(y)
             counts = np.unique(y, return_counts=True)[1]
+            if np.min(counts) < 2:
+                return {
+                    "skipped": True,
+                    "reason": "Minority class has fewer than 2 samples; Optuna cross-validation skipped.",
+                }
             cv_splits = min(5, np.min(counts))
             
             results["RandomForest"] = self._optimize_rf_clf(X, y, n_trials, cv_splits)

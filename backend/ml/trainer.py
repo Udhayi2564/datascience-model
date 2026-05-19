@@ -37,24 +37,36 @@ class ModelTrainer:
             raise ValueError("Classification target must have at least 2 unique classes.")
         
         counts = np.unique(y, return_counts=True)[1]
+        split_warning = None
         if np.min(counts) < 2:
-            raise ValueError("Dataset rejected: Minority class has fewer than 2 samples. Minimum required is 2.")
-            
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+            split_warning = (
+                "Minority class has fewer than 2 samples; using full data for "
+                "training/evaluation fallback. Add more minority-class samples "
+                "for reliable validation metrics."
+            )
+            X_train, X_test, y_train, y_test = X, X, y, y
+        else:
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
         models = {}
 
         lr = LogisticRegression(max_iter=500, random_state=42)
         lr.fit(X_train, y_train)
         models["LogisticRegression"] = {"model": lr, "X_test": X_test, "y_test": y_test}
+        if split_warning:
+            models["LogisticRegression"]["warning"] = split_warning
 
         rf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
         rf.fit(X_train, y_train)
         models["RandomForest"] = {"model": rf, "X_test": X_test, "y_test": y_test}
+        if split_warning:
+            models["RandomForest"]["warning"] = split_warning
 
         try:
             xgb_clf = xgb.XGBClassifier(n_estimators=100, random_state=42, eval_metric="logloss", verbosity=0)
             xgb_clf.fit(X_train, y_train)
             models["XGBoost"] = {"model": xgb_clf, "X_test": X_test, "y_test": y_test}
+            if split_warning:
+                models["XGBoost"]["warning"] = split_warning
         except Exception as e:
             models["XGBoost"] = {"error": str(e)}
 
